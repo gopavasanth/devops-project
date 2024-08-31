@@ -1,0 +1,5 @@
+- Created IAM role
+- Policy
+- Associated with serviceaccount
+- Installed aws-load-balancer-controller using helm
+- 

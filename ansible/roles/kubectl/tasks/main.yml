@@ -1,0 +1,16 @@
+- name: Install kubectl in machine
+  vars:
+    kubectl_version: "v1.26.0"
+  block:
+    - name: Download kubectl binary
+      get_url:
+        url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+        dest: "/usr/local/bin/kubectl"
+        mode: '0755'
+
+    - name: Verify kubectl binary
+      command: "kubectl version --client --short"
+      register: kubectl_version_result
+      changed_when: false
+      failed_when: "'Client Version:' not in kubectl_version_result.stdout"
+

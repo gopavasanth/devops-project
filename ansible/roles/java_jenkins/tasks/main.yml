@@ -1,0 +1,92 @@
+---
+- name: Install Java
+  apt:
+    name: "openjdk-11-jdk"
+    state: present
+
+- name: Create Jenkins user
+  user:
+    name: jenkins
+    shell: /bin/bash
+    create_home: yes
+
+- name: Create Jenkins agent directory
+  file:
+    path: "/opt/jenkins-agent"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+
+- name: Download Jenkins agent jar
+  get_url:
+    url: "http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/jnlpJars/agent.jar"
+    dest: "/opt/jenkins-agent/agent.jar"
+    mode: '0755'
+
+- name: Create Jenkins var folder
+  file:
+    path: "/var/jenkins"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+
+- name: Run Jenkins agent in background
+  shell: >
+    nohup java -jar /opt/jenkins-agent/agent.jar
+    -url http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/
+    -secret 204be45f58e6b03cfce755a79df4b3947c0dabefc6a318e7c612140e414b49f6
+    -name linux
+    -workDir "/var/jenkins" &
+  args:
+    chdir: "/var/jenkins"
+---
+- name: Install Java
+  apt:
+    name: "openjdk-11-jdk"
+    state: present
+
+- name: Create Jenkins user
+  user:
+    name: jenkins
+    shell: /bin/bash
+    create_home: yes
+
+- name: Create Jenkins agent directory
+  file:
+    path: "/opt/jenkins-agent"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+
+- name: Download Jenkins agent jar
+  get_url:
+    url: "http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/jnlpJars/agent.jar"
+    dest: "/opt/jenkins-agent/agent.jar"
+    mode: '0755'
+
+- name: Create Jenkins var folder
+  file:
+    path: "/var/jenkins"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+
+- name: Check if Jenkins agent is already running
+  shell: pgrep -f "java -jar /opt/jenkins-agent/agent.jar" || echo "not running"
+  register: agent_status
+  changed_when: false
+
+- name: Run Jenkins agent in background
+  shell: >
+    nohup java -jar /opt/jenkins-agent/agent.jar
+    -url http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/
+    -secret 204be45f58e6b03cfce755a79df4b3947c0dabefc6a318e7c612140e414b49f6
+    -name linux
+    -workDir "/var/jenkins" &
+  args:
+    chdir: "/var/jenkins"
+  when: agent_status.stdout == "not running"

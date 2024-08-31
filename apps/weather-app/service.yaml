@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations: 
+    service.beta.kubernetes.io/aws-load-balancer-scheme: 'internet-facing'
+  name: weather-app-service
+  namespace: apps
+spec:
+  selector:
+    app: weather-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer

@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: jenkins-admin-role
+rules:
+  - apiGroups: [""] # Core API group
+    resources: ["pods", "services", "deployments", "replicasets", "namespaces", "configmaps", "secrets", "persistentvolumeclaims", "events", "nodes"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
+  - apiGroups: ["apps"] # Apps API group
+    resources: ["deployments", "statefulsets", "daemonsets", "replicasets"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
+  - apiGroups: ["batch"] # Batch API group for jobs and cronjobs
+    resources: ["jobs", "cronjobs"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
+  - apiGroups: ["autoscaling"] # Autoscaling group
+    resources: ["horizontalpodautoscalers"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
+  - apiGroups: ["extensions"] # Extensions API group
+    resources: ["ingresses"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
+  - apiGroups: ["rbac.authorization.k8s.io"] # RBAC group
+    resources: ["roles", "rolebindings", "clusterroles", "clusterrolebindings"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
+  - apiGroups: [""] # Core API for persistent volumes
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
+  - apiGroups: [""] # Nodes and other resources
+    resources: ["nodes", "nodes/status", "pods/log"]
+    verbs: ["get", "list", "watch"]
