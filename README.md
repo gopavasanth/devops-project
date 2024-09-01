@@ -22,5 +22,8 @@ git clone git@github.com:gopavasanth/devops-project.git
 ## Ansible Automation
 [Here](ansible/) is about ansible playbooks to setup and manage configurations through code.
 
+## Set up a CICD server in k8s
+[Here](apps/Jenkins/) is about CI/CD server setup using Helm and configuring slave nodes.
+
 ## Apps delpoyed on K8s cluster
 [Here](apps/) is about the apps deployed in AWS EKS cluster.

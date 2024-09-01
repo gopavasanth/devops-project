@@ -1,8 +1,4 @@
-# Project Documentation
-
-## Steps
-
-### Set up a CICD server in k8s
+# Set up a CICD server in k8s
 
 Setting up a Continuous Integration/Continuous Deployment (CI/CD) server in Kubernetes using Helm involves deploying a CI/CD tool and related components using Helm charts. Here, we'll demonstrate setting up Jenkins as the CI/CD tool using Helm charts and EBS volumes.
 
@@ -49,6 +45,8 @@ Check that the EBS CSI driver components are running:
 kubectl get pods -n kube-system -l app=ebs-csi-controller
 kubectl get pods -n kube-system -l app=ebs-csi-node
 ```
+
+![Alt text](images/ebs-controller.png)
 
 These commands list the EBS CSI controller and node pods to ensure they are deployed and running correctly.
 
