@@ -1,22 +1,17 @@
 ---
 - name: Install prerequisites for Docker
   apt:
-    name:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - gnupg-agent
-      - software-properties-common
+    name: "{{ docker_prerequisites }}"
     state: present
 
 - name: Add Docker’s official GPG key
   apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
+    url: "{{ docker_gpg_key_url }}"
     state: present
 
 - name: Add Docker APT repository
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    repo: "{{ docker_apt_repository }}"
     state: present
 
 - name: Update apt package index after adding Docker repo
@@ -25,17 +20,17 @@
 
 - name: Install Docker CE
   apt:
-    name: docker-ce
+    name: "{{ docker_ce_package }}"
     state: present
 
 - name: Install Docker Compose
   apt:
-    name: docker-compose
+    name: "{{ docker_compose_package }}"
     state: present
 
 - name: Ensure Docker service is running
   systemd:
-    name: docker
+    name: "{{ docker_service_name }}"
     enabled: yes
     state: started
 
@@ -43,13 +38,13 @@
   block:
     - name: Change ownership of Docker socket
       file:
-        path: /var/run/docker.sock
-        owner: root
-        group: docker
-        mode: '0660'
-    
+        path: "{{ docker_socket_path }}"
+        owner: "{{ docker_socket_owner }}"
+        group: "{{ docker_socket_group }}"
+        mode: "{{ docker_socket_mode }}"
+
     - name: Change permissions of Docker socket
-      command: sudo chmod 660 /var/run/docker.sock
+      command: "chmod {{ docker_socket_mode }} {{ docker_socket_path }}"
       become: yes
 
 - name: Add current user to the Docker group

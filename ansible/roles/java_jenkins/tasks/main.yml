@@ -1,92 +1,51 @@
+# ansible/roles/java_jenkins/tasks/main.yaml
+
 ---
 - name: Install Java
   apt:
-    name: "openjdk-11-jdk"
+    name: "{{ java_package }}"
     state: present
 
 - name: Create Jenkins user
   user:
-    name: jenkins
-    shell: /bin/bash
+    name: "{{ jenkins_user }}"
+    shell: "{{ jenkins_shell }}"
     create_home: yes
 
 - name: Create Jenkins agent directory
   file:
-    path: "/opt/jenkins-agent"
+    path: "{{ jenkins_agent_dir }}"
     state: directory
-    owner: jenkins
-    group: jenkins
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
     mode: '0755'
 
 - name: Download Jenkins agent jar
   get_url:
-    url: "http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/jnlpJars/agent.jar"
-    dest: "/opt/jenkins-agent/agent.jar"
+    url: "{{ jenkins_agent_jar_url }}"
+    dest: "{{ jenkins_agent_jar_path }}"
     mode: '0755'
 
 - name: Create Jenkins var folder
   file:
-    path: "/var/jenkins"
+    path: "{{ jenkins_home }}"
     state: directory
-    owner: jenkins
-    group: jenkins
-    mode: '0755'
-
-- name: Run Jenkins agent in background
-  shell: >
-    nohup java -jar /opt/jenkins-agent/agent.jar
-    -url http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/
-    -secret 204be45f58e6b03cfce755a79df4b3947c0dabefc6a318e7c612140e414b49f6
-    -name linux
-    -workDir "/var/jenkins" &
-  args:
-    chdir: "/var/jenkins"
----
-- name: Install Java
-  apt:
-    name: "openjdk-11-jdk"
-    state: present
-
-- name: Create Jenkins user
-  user:
-    name: jenkins
-    shell: /bin/bash
-    create_home: yes
-
-- name: Create Jenkins agent directory
-  file:
-    path: "/opt/jenkins-agent"
-    state: directory
-    owner: jenkins
-    group: jenkins
-    mode: '0755'
-
-- name: Download Jenkins agent jar
-  get_url:
-    url: "http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/jnlpJars/agent.jar"
-    dest: "/opt/jenkins-agent/agent.jar"
-    mode: '0755'
-
-- name: Create Jenkins var folder
-  file:
-    path: "/var/jenkins"
-    state: directory
-    owner: jenkins
-    group: jenkins
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
     mode: '0755'
 
 - name: Check if Jenkins agent is already running
-  shell: pgrep -f "java -jar /opt/jenkins-agent/agent.jar" || echo "not running"
+  shell: pgrep -f "java -jar {{ jenkins_agent_jar_path }}" || echo "not running"
   register: agent_status
   changed_when: false
 
 - name: Run Jenkins agent in background
   shell: >
-    nohup java -jar /opt/jenkins-agent/agent.jar
-    -url http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/
-    -secret 204be45f58e6b03cfce755a79df4b3947c0dabefc6a318e7c612140e414b49f6
-    -name linux
-    -workDir "/var/jenkins" &
+    nohup java -jar {{ jenkins_agent_jar_path }}
+    -url {{ jenkins_server_url }}
+    -secret {{ jenkins_agent_secret }}
+    -name {{ jenkins_agent_name }}
+    -workDir "{{ jenkins_work_dir }}" &
   args:
-    chdir: "/var/jenkins"
+    chdir: "{{ jenkins_work_dir }}"
   when: agent_status.stdout == "not running"

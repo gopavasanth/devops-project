@@ -1,0 +1,14 @@
+# ansible/roles/awscli/vars/main.yaml
+
+# Command to check AWS CLI version
+awscli_version_command: "aws --version"
+
+# AWS CLI download URL and destination
+awscli_download_url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+awscli_download_dest: "/tmp/awscliv2.zip"
+
+# AWS CLI unzip destination
+awscli_unzip_dest: "/tmp"
+
+# AWS CLI install command
+awscli_install_command: "/tmp/aws/install"

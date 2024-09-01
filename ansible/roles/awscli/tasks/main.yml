@@ -3,7 +3,7 @@
   become: yes
   block:
     - name: Check if AWS CLI v2 is installed
-      command: aws --version
+      command: "{{ awscli_version_command }}"
       register: aws_version
       ignore_errors: yes
 
@@ -11,23 +11,23 @@
       block:
         - name: Download AWS CLI v2
           get_url:
-            url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
-            dest: /tmp/awscliv2.zip
+            url: "{{ awscli_download_url }}"
+            dest: "{{ awscli_download_dest }}"
 
         - name: Unzip AWS CLI v2
           unarchive:
-            src: /tmp/awscliv2.zip
-            dest: /tmp/
+            src: "{{ awscli_download_dest }}"
+            dest: "{{ awscli_unzip_dest }}"
             remote_src: yes
 
         - name: Install AWS CLI v2
-          command: /tmp/aws/install
+          command: "{{ awscli_install_command }}"
 
         - name: Remove the installer and zip file
           file:
             path: "{{ item }}"
             state: absent
           loop:
-            - /tmp/awscliv2.zip
-            - /tmp/aws/
+            - "{{ awscli_download_dest }}"
+            - "{{ awscli_unzip_dest }}/aws"
       when: aws_version is failed

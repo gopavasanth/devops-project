@@ -1,12 +1,16 @@
 ---
-- name: Install Java, Jenkins Agent, Docker, and AWS CLI
+- name: Install Java, Jenkins Agent, Docker, Kubectl, and AWS CLI
   hosts: all
   become: yes
+
+  vars_files:
+    - "roles/java_jenkins/vars/main.yaml"
+    - "roles/docker/vars/main.yaml"
+    - "roles/kubectl/vars/main.yaml"
+    - "roles/awscli/vars/main.yaml"
 
   roles:
     - java_jenkins
     - docker
     - kubectl
     - awscli
-
-    

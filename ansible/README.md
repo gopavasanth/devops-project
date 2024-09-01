@@ -30,6 +30,6 @@ This project contains Ansible playbooks and related files for configuring and ma
 
 Run the following command to execute the Ansible playbook:
   ```bash
-  ansible-playbook -i inventory.ini playbook.yml --private-key=../gopa-jenkins.pem
+  ansible-playbook -i inventory.ini playbook.yml --private-key=../gopa-jenkins.pem --vault-password-file vault_pass.txt
   ```
 

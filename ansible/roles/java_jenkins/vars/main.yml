@@ -1,0 +1,31 @@
+# ansible/roles/java_jenkins/vars/main.yaml
+
+# Java version and package name
+java_package: "openjdk-11-jdk"
+
+# Jenkins user settings
+jenkins_user: "jenkins"
+jenkins_shell: "/bin/bash"
+jenkins_home: "/var/jenkins"
+
+# Jenkins agent settings
+jenkins_agent_dir: "/opt/jenkins-agent"
+jenkins_agent_jar_url: "http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/jnlpJars/agent.jar"
+jenkins_agent_jar_path: "{{ jenkins_agent_dir }}/agent.jar"
+
+# Jenkins server settings
+jenkins_server_url: "http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/"
+
+# Jenkins agent registration
+jenkins_agent_name: "linux"
+jenkins_agent_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          63353863343832636237653531633531343536363839393435393138306334636566656162643163
+          3036653235636265663265383930373730623935643236310a316430653564663034613964613230
+          39326262376231333635313462666438633138373438376562313566303433306631666265383661
+          6465326665336533360a333564303864336263633336643134366133393938643363333431346439
+          61643263663934643561386363383031343866386336363866653139343666623332663663633561
+          62643765306439306331333765306164366637383264393264353262366138366562656264656638
+          37643336313530376137616137363964626464613035643064613932386533633264313965633433
+          33326138633865633866
+jenkins_work_dir: "{{ jenkins_home }}"

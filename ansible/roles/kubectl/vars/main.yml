@@ -1,0 +1,16 @@
+# ansible/roles/kubectl/vars/main.yaml
+
+# kubectl version
+kubectl_version: "v1.26.0"
+
+# kubectl download URL
+kubectl_download_url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+
+# Destination path for kubectl binary
+kubectl_dest: "/usr/local/bin/kubectl"
+
+# File mode for kubectl binary
+kubectl_mode: '0755'
+
+# Command to verify kubectl installation
+kubectl_version_command: "kubectl version --client --short"
