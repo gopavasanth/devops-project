@@ -65,17 +65,14 @@ Istio is a service mesh that provides features like traffic management, observab
   helm install istio-base istio/base -n istio-system
   ```
 
-  ![Alt text](images/image.png)
-
   ```bash
   helm ls -n istio-system
   ```
-  ![Alt text](images/image-1.png)
+
   ```bash
   helm install istiod istio/istiod -n istio-system --wait
   kubectl get pods -n istio-system
   ```
-  ![Alt text](images/image-2.png)
   
   Refernce: https://istio.io/latest/docs/setup/install/helm/
 - **Step 2: Deploy Application with Sidecar Injection:**
