@@ -13,6 +13,9 @@ git clone git@github.com:gopavasanth/devops-project.git
 ## Infrastucture
 [Here](infra/) is the terraform code to provision Kubernetes cluster infrastructure.
 
+## Cluster autoscaller
+[Here](autoscalling/) is the configuration details of cluster auto scaler.
+
 ## Ansible Automation
 [Here](ansible/) is about ansible playbooks to setup and manage configurations through code.
 
