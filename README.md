@@ -10,6 +10,9 @@ Clone the Git repository using the following command:
 git clone git@github.com:gopavasanth/devops-project.git
 ```
 
+## Architecture
+[Here](architecture/) is about the AWS EKS and EC2 architecture.
+
 ## Infrastucture
 [Here](infra/) is the terraform code to provision Kubernetes cluster infrastructure.
 
