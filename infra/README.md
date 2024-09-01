@@ -46,3 +46,20 @@ The VPC setup is defined in `./modules/eks_cluster/vpc.tf` and includes the foll
    ```bash
    terraform apply
 
+## Disaster recovery plan in case of infrastructure failures
+
+Designing an Amazon Elastic Kubernetes Service (EKS) cluster for disaster recovery involves implementing strategies and configurations that ensure the availability and resilience of the cluster in case of a disaster or failure. Here are some steps to consider when designing an EKS cluster for disaster recovery:
+
+1. **Use multiple availability zones:** When creating an EKS cluster, We should launch worker nodes across multiple availability zones. This provides redundancy and helps ensure that the failure of a single availability zone does not result in a complete cluster outage.
+
+2. **Implement automatic scaling:** Configure EKS cluster to automatically scale in response to changes in workload demand. This ensures that your cluster can handle fluctuations in traffic and can automatically recover from failures without manual intervention.
+
+3. **Use multiple clusters:** Consider using multiple EKS clusters to ensure redundancy and minimize the impact of failures. We can create a primary cluster and a secondary cluster in a different region, which can take over in the event of a disaster.
+
+4. **Implement data replication:** Implement data replication to ensure that critical data is available in multiple locations. Use data replication solutions such as Amazon S3, Amazon RDS, or Amazon DynamoDB to replicate data across multiple availability zones.
+
+5. **Back up your EKS cluster:** Back up EKS cluster data regularly using tools like velero and store backups in a different region than the primary cluster. This ensures that we have access to critical data and can restore your cluster in the event of a disaster.
+
+6. **Implement monitoring and alerting:** Implement monitoring and alerting tools to monitor EKS cluster and alert you to any issues. Use tools such as Amazon CloudWatch and AWS CloudTrail to monitor and analyze cluster logs, metrics, and events.
+
+7. **Test your disaster recovery plan:** Test disaster recovery plan regularly to ensure that it works and to identify any gaps or weaknesses. Conduct simulated disaster recovery scenarios to test plan and ensure that your team is prepared to handle a disaster.

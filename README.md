@@ -16,6 +16,9 @@ git clone git@github.com:gopavasanth/devops-project.git
 ## Cluster autoscaller
 [Here](autoscalling/) is the configuration details of cluster auto scaler.
 
+## Kubernetes deployment
+[Here](k8s-deployment) are the steps to implement a canary deployment strategy in k8s, to implement istio service mesh and implement logging and monitoring solution
+
 ## Ansible Automation
 [Here](ansible/) is about ansible playbooks to setup and manage configurations through code.
 
