@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# Weather App Deployment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This document describes the deployment of the Weather App on Kubernetes.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The Weather App is a web application deployed on Kubernetes with the following configurations:
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- **Replicas:** The deployment is configured with 2 replicas to ensure high availability and load balancing.
+- **Container Image:** The app uses the Docker image `gopavasanth/weather-app:latest`.
+- **Port Exposure:** The application container exposes port 3000.
+- **Environment Variables:** Set `ENVIRONMENT` to "production" to configure the app for production use.
+- **Resource Management:** Resource requests and limits are defined to allocate CPU and memory resources efficiently.
 
-### `npm run build` fails to minify
+### Service
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Type:** The service is of type `LoadBalancer`, which provisions an external load balancer to expose the app to the internet.
+- **Port Configuration:** The service listens on port 80 and forwards traffic to the application’s container port 3000.
+- **Annotations:** Configured to be internet-facing using the appropriate annotations for AWS load balancer.
+
+## How It Works
+
+1. **Deployment Configuration:** The `Deployment` resource ensures that two instances of the Weather App are running. It manages the application’s lifecycle, including scaling and updates.
+2. **Service Exposure:** The `Service` resource of type `LoadBalancer` creates an external load balancer, allowing access to the app from outside the Kubernetes cluster. It handles routing traffic to the appropriate pods running the app.
+
+## Deployment Instructions
+
+1. **Apply the Deployment:**
+   ```bash
+   kubectl apply -f weather-app/deployment.yaml
+
+2. **Apply the Service:** 
+    ```bash
+    kubectl apply -f weather-app/service.yaml
+
+3. **Verify Deployment and Service: Check the status of the deployed pods and the LoadBalancer service:**
+    ```bash
+    kubectl get pods -n apps
+    kubectl get services -n apps
+

@@ -1,9 +1,12 @@
+# Project Documentation
+
 ## Guide
-https://octopus.com/blog/jenkins-helm-install-guide
 
-## Issues
-Jenkins user doens't have permissions to list resources
-Fixed: http://adceb6d7ded6941098f35b584329631d-1261963004.us-west-2.elb.amazonaws.com:8080/job/kubectl-version-pipeline/5/console
+For instructions on installing Jenkins with Helm, refer to the [Jenkins Helm Install Guide](https://octopus.com/blog/jenkins-helm-install-guide).
 
-# TO exposer jenkins pod using LoadBalancer
-For everysservice we need to use Loadbalancer since native k8s don't support this re-use funcaiontlity so its recommended to use Ingress 
+## Exposing Jenkins Pod
+
+To expose the Jenkins pod using a LoadBalancer, consider the following:
+
+- **Current Approach:** For every service, use a LoadBalancer since native Kubernetes does not support this functionality.
+- **Recommended Alternative:** It is recommended to use Ingress for exposing services. Ingress provides a more flexible and reusable way to manage external access to services within a Kubernetes cluster.
